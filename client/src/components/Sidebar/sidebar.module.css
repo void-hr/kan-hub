@@ -20,18 +20,14 @@
     width: 100%;
     display: flex;
     align-items: center;
-    /* justify-content: center; */
-    height: 4rem;
+    justify-content: center;
     gap: 1rem;
-    transform: translate(25%);
 
 }
 
-.sidebar_header p{
-    text-align: center;
-    font-size: x-large;
-    font-weight: bold;
-
+.sidebar_header img {
+    width: 8%;
+    transform: translate(-5px);
 }
 
 .sidebar_lower {
@@ -58,13 +54,17 @@
     display: flex;
     align-items: center;
     gap: 2rem;
-    transform: translate(25%);
+    padding-left: 25%;
+    cursor: pointer;
 }
 
 .nav_active img {
-    filter: brightness(0%) ;
+    filter: contrast(100) ;
+}
+.nav_active  {
+   background-color: rgba(67, 145, 237, 0.10) ;
 }
 
-.nav_inactive img{
-    filter: ;
+.nav_inactive {
+    color: #756565dd;
 }

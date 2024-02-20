@@ -4,6 +4,8 @@ import "./App.css"
 import LoginPage from './pages/LoginPage/LoginPage'
 import RegisterPage from './pages/RegisterPage/RegisterPage'
 import HomePage from './pages/HomePage/HomePage'
+import SettingPage from './pages/SettingPage/SettingPage'
+import AnalyticsPage from './pages/AnalyticsPage/AnalyticsPage'
 
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
         <Route path="/login" element={<LoginPage />}/ >
         <Route path="/register" element={<RegisterPage />}/ >
         <Route path="/" element={<HomePage />}/ >
+        <Route path="/settings" element={<SettingPage />}/ >
+        <Route path="/analytics" element={<AnalyticsPage />}/ >
 
       </Routes>
     </>

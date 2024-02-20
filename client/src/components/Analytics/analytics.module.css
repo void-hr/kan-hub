@@ -1,0 +1,30 @@
+.container {
+    flex: 1;
+}
+
+.inner_container {
+    display: flex;
+    gap: 1rem;
+}
+
+.analytics {
+    background-color: rgba(67, 145, 237, 0.10) ;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    width: 30%;
+}
+
+.analytics_content_container {
+    display: flex; 
+    justify-content: space-between;
+}
+
+.analytics_content_left {
+    display: flex; 
+    gap: 1rem;
+}
+
+.analytics_content_right {
+    font-weight: bold;
+}
+
