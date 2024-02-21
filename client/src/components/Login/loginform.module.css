@@ -35,6 +35,10 @@
     justify-content: space-between;
 }
 
+.input_span input {
+    padding-left: 3vw;
+}
+
 .single_icon {
     position: absolute;
     padding: 4px;
@@ -61,9 +65,34 @@
     align-items: center;
     flex-direction: column;
     justify-content: center;
+    width: 100%;
 }
 
 .button_group p {
     color: #828282;
 }
+
+.primary_button{
+        background-color: #17A2B8;
+        color: white;
+        border: none;
+        outline: none;
+        font-size: large;
+        width: 100%;
+        padding: 12px;
+        cursor: pointer;
+        border-radius: 55px;
+    }
+
+    .secondary_button{
+        border: 1px solid #17A2B8;
+        color: #17A2B8;
+        background-color: transparent;
+        outline: none;
+        font-size: large;
+        width: 100%;
+        padding: 12px;
+        cursor: pointer;
+        border-radius: 55px;
+    }
 

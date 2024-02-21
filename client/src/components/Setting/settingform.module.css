@@ -58,9 +58,9 @@
 
 .button_group {
     display: flex;
-    align-items: center;
     flex-direction: column;
-    justify-content: center;
+    gap: 1rem;
+    width: 100%;
 }
 
 .button_group p {

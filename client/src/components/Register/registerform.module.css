@@ -44,7 +44,9 @@
     align-items: center;
     justify-content: center;
 }
-
+.input_span input {
+    padding-left: 3vw;
+}
 .icon_group img:first-child  {
     position: absolute;
     left: 4px;
@@ -58,6 +60,7 @@
 }
 
 .button_group {
+    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -66,4 +69,28 @@
 
 .button_group p {
     color: #828282;
+}
+
+.primary_button{
+    background-color: #17A2B8;
+    color: white;
+    border: none;
+    outline: none;
+    font-size: large;
+    width: 100%;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 55px;
+}
+
+.secondary_button{
+    border: 1px solid #17A2B8;
+    color: #17A2B8;
+    background-color: transparent;
+    outline: none;
+    font-size: large;
+    width: 100%;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 55px;
 }

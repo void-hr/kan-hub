@@ -2,6 +2,7 @@ import avatar from "../../assets/icons/avatar.png"
 import lock from "../../assets/icons/lock.svg"
 import eye from "../../assets/icons/eye.svg"
 import styles from "./settingform.module.css"
+import CustomButton from "../CustomButton/CustomButton"
 const SettingForm = () => {
   return (
     <div className={styles.container}>
@@ -28,7 +29,8 @@ const SettingForm = () => {
             </span>
           </span>
         <div className={styles.button_group}>
-        <button type="button">Login</button>
+        <CustomButton type="primary" radius={55} title="Update"/>
+
         </div>
         </form>
        

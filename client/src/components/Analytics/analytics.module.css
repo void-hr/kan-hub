@@ -11,7 +11,7 @@
     background-color: rgba(67, 145, 237, 0.10) ;
     padding: 1rem 2rem;
     border-radius: 12px;
-    width: 30%;
+    width: 30vw;
 }
 
 .analytics_content_container {
@@ -19,6 +19,9 @@
     justify-content: space-between;
 }
 
+.analytics_content_container img {
+    width: 12px;
+}
 .analytics_content_left {
     display: flex; 
     gap: 1rem;

@@ -2,7 +2,7 @@ body, html {
     margin: 0;
     padding: 0;
     font-family: 'Open Sans', sans-serif;
-    
+
 }
 
 * {
@@ -10,12 +10,55 @@ body, html {
 }
 
 
+
 input {
     width: 100%;
     border: 1px solid #D0D0D0;
     padding: 12px;
-    padding-left: 8%;
     border-radius: 10px;
     font-size: large;
     outline: none;
 }
+
+ ::-webkit-scrollbar {
+  width: 1.6rem;
+  background-color: transparent;
+  height: 0.8rem;
+  scroll-behavior: smooth;
+} 
+
+::-webkit-scrollbar-track:vertical {
+    background: #D6EAF4;
+    /* overflow: hidden; */
+    /* border-top-right-radius: 12px; */
+    border-bottom-right-radius: 12px;
+
+    
+  }
+
+
+
+::-webkit-scrollbar-track:horizontal {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+  border-radius: 12px;
+
+  }
+
+::-webkit-scrollbar-thumb:horizontal {
+  background: rgba(141, 170, 185, 0.8);
+  border-radius: 12px;
+  
+}
+
+
+
+::-webkit-scrollbar-thumb:vertical {
+    background: rgba(141, 170, 185, 0.8);
+    border-radius: 12px;
+    border-left: 6px solid #D6EAF4;
+    border-right: 6px solid #D6EAF4;
+  }
+

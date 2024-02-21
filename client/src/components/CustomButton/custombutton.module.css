@@ -1,0 +1,31 @@
+button {
+    font-size: large;
+    width: 100%;
+    padding: 12px;
+    cursor: pointer;
+    z-index: 10;
+}
+.primary {
+    background-color: #17A2B8;
+    color: white;
+    border: none;
+    outline: none;
+}
+.secondary{
+    border: 1px solid #17A2B8;
+    color: #17A2B8;
+    background-color: transparent;
+}
+
+.disabled {
+    border: 1px solid #E2E2E2;
+    color: #707070;
+    background-color: transparent;
+    padding: 10px;
+}
+
+.danger {
+    border: 1px solid #CF3636;
+    color: #CF3636;
+    background-color: transparent;
+}
