@@ -5,9 +5,12 @@ import blue from "../../assets/icons/blue.svg"
 import green from "../../assets/icons/green.svg"
 import { Formik, Form, FieldArray, Field } from 'formik';
 import { useState } from 'react';
+import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 
 
-const AddTaskModal = ({setModalView}) => {
+const AddTaskModal = ({setModalView, setAllCard}) => {
+  const [ showCalendar, setShowCalendar ] = useState(false)
   return (
     <Formik 
     initialValues={{title: "", priority: "", checklist:[], dueDate: ""}}
@@ -18,6 +21,11 @@ const AddTaskModal = ({setModalView}) => {
         { formik => (
     <div className={styles.container}>
         <div className={styles.card_container}>
+            {showCalendar && <div className={styles.calendar_view}> 
+            <Calendar onChange={(value) => 
+            {formik.setFieldValue('dueDate', value)
+            setShowCalendar(false)
+          }} selectRange={false} /> </div>}
             <div className={styles.card_title}>
                 <label >Title</label>
                 <input type="text" name="" id="title" placeholder="Enter Task Title" onChange={formik.handleChange}/>
@@ -48,13 +56,14 @@ const AddTaskModal = ({setModalView}) => {
                     updatedChecklist[mapIdx] = { title: e.target.value };
                     formik.setFieldValue('checklist', updatedChecklist);
                   }}
-                />
+                  />
                 
 
                 <div className={styles.task_input_checkbox} >
                 <input type="checkbox" id={`checklist[${mapIdx}].isChecked`} />
                 </div>
                 </div>
+                
               ))}
               <span
                 onClick={() => {
@@ -70,19 +79,21 @@ const AddTaskModal = ({setModalView}) => {
  
           
 
-
             <div className={styles.button_group}>
                 <span className={styles.button_left}>
-                <CustomButton type="disabled" title="Select Due Date" radius={12} onClick={formik.handleSubmit}/>
+                <CustomButton type="disabled" title={formik.values?.dueDate ? formik.values.dueDate.toLocaleDateString(): "Select Due Date"} radius={12} onClick={()=> setShowCalendar(true)}/>
                 </span>
                 <span className={styles.button_right}>
                 <CustomButton type="danger" title="Cancel" radius={12} onClick={()=> setModalView(false)}/>
-                <CustomButton type="primary" title="Save" radius={12} />
+                <CustomButton type="primary" title="Save" radius={12}  onClick={()=> { 
+                    setAllCard((prev) => [formik.values])
+                    formik.handleSubmit}}/>
 
                 </span>
             </div>
         </div>
     </div>)}
+
     </Formik>
   )
 }

@@ -25,11 +25,13 @@ input {
   background-color: transparent;
   height: 0.8rem;
   scroll-behavior: smooth;
+  overflow: hidden;
 } 
 
 ::-webkit-scrollbar-track:vertical {
     background: #D6EAF4;
-    /* overflow: hidden; */
+    /* margin-top: 2rem; */
+    overflow: hidden;
     /* border-top-right-radius: 12px; */
     border-bottom-right-radius: 12px;
 

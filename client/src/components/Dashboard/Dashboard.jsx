@@ -7,7 +7,9 @@ import styles from "./dashboard.module.css";
 import AddTaskModal from "../AddTaskModal/AddTaskModal";
 
 const Dashboard = () => {
+
     const [ modalView, setModalView] = useState(false);
+    const [ allCard, setAllCard ] = useState([]); 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
@@ -58,7 +60,9 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      {modalView ? <AddTaskModal setModalView={setModalView}/> : ""}
+      {modalView ? <AddTaskModal setModalView={setModalView} setAllCard={setAllCard}/> : ""}
+
+      <pre>{JSON.stringify(allCard)}</pre>
     </div>
   );
 };
