@@ -1,12 +1,13 @@
 .container {
-    height: 100vh ;
+    height: 100vh;
     flex: 1;
-   
+
 }
 
 .inner_container {
     display: flex;
-    height: auto; /*might change later according to figma */
+    height: auto;
+    /*might change later according to figma */
     width: 50vh;
     flex-direction: column;
     /* align-items: center; */
@@ -43,13 +44,14 @@
     align-items: center;
     justify-content: center;
 }
-.icon_group img:first-child  {
+
+.icon_group img:first-child {
     position: absolute;
     left: 4px;
     width: 6%;
 }
 
-.icon_group img:last-child  {
+.icon_group img:last-child {
     position: absolute;
     right: 4px;
     width: 6%;
@@ -67,3 +69,30 @@
     color: #828282;
 }
 
+
+.input_span input {
+    padding-left: calc(4px + 1.8rem);
+}
+
+.primary_button {
+
+    background-color: #17A2B8;
+    color: white;
+    border: none;
+    outline: none;
+    font-size: large;
+    width: 100%;
+    padding: 12px;
+    cursor: pointer;
+    border-radius: 55px;
+
+}
+
+.inner_container p {
+    color: red;
+    margin: 0;
+    padding: 0;
+    align-self: self-start;
+    font-size: small;
+    line-height: 0;
+}

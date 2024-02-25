@@ -6,7 +6,7 @@ const taskSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    cateogry: {
+    category: {
         type: String,
         enum: ["BACKLOGS", "TODO", "IN PROGRESS", "DONE"],
         required: true,

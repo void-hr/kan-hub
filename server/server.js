@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(cors(corsOptions));
 
 app.use("/api/v1", authRoutes);
-app.use("/api/v1/task", taskRoutes);
+app.use("/api/v1/tasks", taskRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "Server is up 🚀" });

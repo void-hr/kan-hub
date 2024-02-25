@@ -26,6 +26,17 @@
     justify-content: center;
 }
 
+
+.input_wrapper {
+    width: 100%;
+}
+
+.input_wrapper p {
+    color: red;
+    padding-left: 2px;
+    font-size: small;
+}
+
 .input_span {
     width: 100%;
     position: relative;

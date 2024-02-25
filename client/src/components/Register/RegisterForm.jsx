@@ -33,15 +33,18 @@ const RegisterForm = () => {
       .oneOf([Yup.ref("password")], "Your passwords do not match."),
   });
 
-  const handleCreateAccount = async (value) => {
+  const handleCreateAccount = async (value, { resetForm }) => {
     try {
       const res = await registerAccount(value);
       if (res?.token && res?.name) {
         localStorage.setItem("token", res.token);
         localStorage.setItem("user", res.name);
+        toast.success(`${res.message}`)
         navigate('/');
+        resetForm();
       }
     } catch (error) {
+      resetForm();
       return toast.error(error.message);
     }
   };
@@ -55,7 +58,7 @@ const RegisterForm = () => {
           confirmpassword: "",
         }}
         validationSchema={SignUpSchema}
-        onSubmit={(value) => handleCreateAccount(value)}
+        onSubmit={(value, { resetForm }) => handleCreateAccount(value, { resetForm })}
       >
         {(formik) => (
         <div className={styles.container}>
@@ -66,9 +69,9 @@ const RegisterForm = () => {
                 <span className={styles.input_span}>
                   <input
                     type="text"
-                    name="name"
                     id="name"
                     placeholder="Name"
+                    value={formik.values.name}
                     onChange={formik.handleChange}
                   />
                   <img src={avatar} alt="user" className={styles.single_icon} />
@@ -80,9 +83,9 @@ const RegisterForm = () => {
                 <span className={styles.input_span}>
                   <input
                     type="email"
-                    name="email"
                     id="email"
                     placeholder="Email"
+                    value={formik.values.email}
                     onChange={formik.handleChange}
                   />
                   <img src={mail} alt="mail" className={styles.single_icon} />
@@ -96,6 +99,7 @@ const RegisterForm = () => {
                     type={showPassword.password ? "text": "password"}
                     id="password"
                     placeholder="Password"
+                    value={formik.values.password}
                     onChange={formik.handleChange}
                   />
                   <span className={styles.icon_group}>
@@ -112,6 +116,7 @@ const RegisterForm = () => {
                     type={showPassword.confirmpassword ? "text": "password"}
                     id="confirmpassword"
                     placeholder="Confirm Password"
+                    value={formik.values.confirmpassword}
                     onChange={formik.handleChange}
                   />
                   <span className={styles.icon_group}>

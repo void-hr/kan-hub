@@ -3,7 +3,7 @@ import CustomButton from "../CustomButton/CustomButton"
 import red from "../../assets/icons/red.svg"
 import blue from "../../assets/icons/blue.svg"
 import green from "../../assets/icons/green.svg"
-import { Formik, Form, FieldArray, Field } from 'formik';
+import { Formik, FieldArray } from 'formik';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';

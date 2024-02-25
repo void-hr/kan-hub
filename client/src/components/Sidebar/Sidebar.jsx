@@ -3,13 +3,20 @@ import logout from "../../assets/icons/logout.svg"
 import board from "../../assets/icons/board.svg"
 import analytics from "../../assets/icons/analytics.svg"
 import settings from "../../assets/icons/settings.svg"
-import { useNavigate, useParams, useResolvedPath } from "react-router-dom"
+import { useNavigate,  useResolvedPath } from "react-router-dom"
 import styles from "./sidebar.module.css"
+import toast from "react-hot-toast"
 const Sidebar = () => {
     const navigate = useNavigate();
-    const {pathname} = useResolvedPath();
+    const { pathname } = useResolvedPath();
     const pageSection = pathname?.split("/").pop();
-    console.log(pageSection)
+
+    const handleLogout = () => {
+        localStorage.clear();
+        navigate('/login');
+        toast.success("Logged Out")
+    }
+
   return (
     <aside className={styles.container}>
         <div className={styles.sidebar_upper}>
@@ -33,11 +40,10 @@ const Sidebar = () => {
             </span>
         </div>
         </div>
-        <div className={styles.sidebar_lower}>
+        <div className={styles.sidebar_lower} onClick={handleLogout}>
         <img src={logout} alt="pro logo" />
         <p> Logout </p>
         </div>
-
     </aside>
   )
 }

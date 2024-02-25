@@ -18,7 +18,6 @@ function App() {
         <Route path="/" element={<HomePage />}/ >
         <Route path="/settings" element={<SettingPage />}/ >
         <Route path="/analytics" element={<AnalyticsPage />}/ >
-
       </Routes>
       <Toaster   position="top-right"  reverseOrder={false}/>
     </>

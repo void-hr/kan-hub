@@ -1,5 +1,117 @@
 .container {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1rem;
+    background-color: white;
+    padding: 12px;
+    border-radius: 1rem;
 }
+
+.header {
+    display: flex;
+    font-size: x-small;
+    font-weight: bold;
+    color: #707070;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header span:last-child{
+    color: black; 
+    font-size: large;
+    cursor: pointer;
+}
+
+.header select {
+    appearance: none;
+    border: none;
+    background-color: transparent;
+}
+
+
+.title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2; 
+    font-weight: bold;
+    font-size: large;
+    width: 100%;
+}
+
+.checklist {
+    width: 100%;
+}
+
+.input_span {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 1cap;
+}
+
+.input_text_container {
+    width: 100%;
+    display: flex;
+}
+
+.input_text_container input[type="text"] {
+    padding-left: calc(1.4rem + 1.4rem);
+}
+.input_checkbox_container{
+    position: absolute;
+    left: 0px;
+}
+.input_checkbox_container input[type="checkbox"] {
+    width: 1.4rem;
+    margin-left: 1rem;
+    appearance: none;
+    border-radius: 6px;
+    vertical-align: middle;
+    outline: none;
+    background: url('../../assets/icons/tick.svg') center center no-repeat;
+    background-size: 60%;
+    cursor: pointer;
+  }
+
+.input_checkbox_container input[type="checkbox"]:checked {
+    color: #ffffff;
+    background-color: #17A2B8;
+    outline: none;
+    border: none;
+}
+.input_checkbox_container input[type="checkbox"]::after {
+    display: block;
+    font-family: sans-serif;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    transform: translate(-40%, -5%);
+    color: rgb(242, 242, 242);
+  }
+
+  .date_and_nav_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+  }
+
+  .change_category_container {
+    display: flex; 
+    gap: 7px;
+  }
+  .change_category {
+    /* background: #000; */
+    border-radius: 4px;
+    padding: 0px 4px;
+    color: #707070;
+    font-size: small;
+    cursor: pointer;
+    background-color: #EEECEC;
+    align-self: right;
+  }
+
+  .due_date {
+    font-size: small;
+  }

@@ -13,6 +13,8 @@
         align-items: center;
         justify-content: space-between;
         padding-right: 1rem;
+        font-size: clamp(12px, 1vw, 2rem);
+        
      }
     .sub_header { 
         grid-area: 2 / 1 / 2 / 6;
@@ -24,6 +26,7 @@
     .kanban_container { 
         grid-area: 3 / 1 / 11 / 6;
        display: grid;
+       flex: 1;
        grid-template-columns: repeat(4, 1fr);
        /* grid-column-gap: 12px; */
        overflow-x: scroll;
@@ -33,31 +36,24 @@
         background-color: #EEF2F5;
         margin-bottom: 1rem;
         margin-right: 1rem;
+        border-radius: 12px;
         padding: 12px;
-    }
+        overflow: hidden;
+        width: 21vw;
 
-    .backlog {
-        min-width: 21vw;
-        border-radius: 12px;
+     
+    }
+    .card_content_container {
+        height: 69vh;
         overflow-y: auto;
-    }
-    
-    .todo {
-        min-width: 21vw;
-        border-radius: 12px;
-    }
-    
-    .inprogress {
-        min-width: 21vw;
-        border-radius: 12px;
-    }
-    
-    .done {
-        min-width: 21vw;
-        border-radius: 12px;
+        padding: 0px 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
     }
 
-    
+
 
     .kanban_title {
         display: flex;
@@ -65,8 +61,10 @@
         justify-content: space-between;
         font-size: large;
         font-weight: bold;
+        background-color: #EEF2F5;
         position: sticky;
         top: 0;
+        
     }
 
     .kanban_title_right{
