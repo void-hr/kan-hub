@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import ellipse from "../../assets/icons/ellipse.svg"
 import styles from "./analytics.module.css"
 import { getAllAnalytics } from "../../api/task";
+import toast from "react-hot-toast";
 const Analytics = () => {
 
     const [analytics, setAnalytics] = useState();
@@ -15,7 +16,7 @@ const Analytics = () => {
             const res  = await getAllAnalytics();
             setAnalytics(res)
         } catch (error) {
-            
+            toast.error(error.message)
         }
     }
 

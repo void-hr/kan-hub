@@ -21,6 +21,17 @@ export const getAllTasks = async() => {
     }
 }
 
+export const updateExistingCard = async(cardId, data) => {
+    try {
+        console.log("cardId : "+ cardId)
+        console.log("data : "+ data)
+
+    } catch (error) {
+        
+    }
+}
+
+
 export const updateTaskState = async(cardId, data) => {
     try {
         const token = localStorage.getItem('token')
@@ -70,7 +81,7 @@ export const getAllAnalytics = async() => {
                 "Content-type": "application/json; charset=UTF-8",
                 "Authorization": token
             }}
-            const { data } = await axios.get(`http://localhost:8000/api/v1/tasks/analytics/`,  header);
+            const { data } = await axios.get(`http://localhost:8000/api/v1/tasks/analytics`,  header);
                 return data;
        }else {
         throw new Error("Something Unexpected Happened")
@@ -91,12 +102,45 @@ export const updateSettings = async(formData) => {
                 "Authorization": token
             }}
             const { data } = await axios.patch(`http://localhost:8000/api/v1/updateuser`, formData, header);
-            console.log(JSON.stringify(data,null,2))
                 return data;
        }else {
         throw new Error("Something Unexpected Happened")
        }
     } catch (error) {
+        const customErrorMessage = error?.response?.data?.message || "Something Went Wrong";
+        throw new Error(customErrorMessage);
+    }
+}
+
+
+export const createTask = async(value) => {
+    try {
+        const token = localStorage.getItem('token')
+        if(token) {
+            const header = { headers : {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": token
+            }}
+            const { data } = await axios.post(`http://localhost:8000/api/v1/tasks/create`, value, header);
+            return data;
+        
+    }} catch (error) {
+        const customErrorMessage = error?.response?.data?.message || "Something Went Wrong";
+        throw new Error(customErrorMessage);
+    }
+}
+
+export const deleteTaskCard = async(cardId) => {
+    try {
+        const token = localStorage.getItem('token')
+        if(token) {
+            const header = { headers : {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": token
+            }}
+            const { data } = await axios.delete(`http://localhost:8000/api/v1/tasks/${cardId}`, header);
+            return data;
+    } }catch (error) {
         const customErrorMessage = error?.response?.data?.message || "Something Went Wrong";
         throw new Error(customErrorMessage);
     }

@@ -4,7 +4,9 @@ const Task = require("../models/taskSchema")
 
 const createTask = async (req, res) => {
     try {
-        const data = await Task.create({...req.body});
+      const refUserId = req.body.userID;
+      const {title, category, priority, checklist, dueDate } = req.body
+        const data = await Task.create({title, category, priority, checklist, dueDate, refUserId});
         console.log(data)
          return res.json({data}) 
          
@@ -91,20 +93,33 @@ const updateCard = async (req, res) => {
           const progress = categoryCount.find(item => item._id === "IN PROGRESS")?.count;
           const done = categoryCount.find(item => item._id === "DONE")?.count;
           const low = priorityCounts.find(item => item._id === "LOW PRIORITY")?.count;
-          const medium = priorityCounts.find(item => item._id === "MEDIUM PRIORITY")?.count;
+          const moderate = priorityCounts.find(item => item._id === "MODERATE PRIORITY")?.count;
           const high = priorityCounts.find(item => item._id === "HIGH PRIORITY")?.count;
 
     
         const dueDateCounts = await Task.countDocuments({ refUserId: new mongoose.Types.ObjectId(userId), dueDate: { $ne: null } });
 
-        res.json({ backlogs,todo, progress, done, medium, high, low , dueDateCounts });
+        res.json({ backlogs,todo, progress, done, moderate, high, low , dueDateCounts });
       } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
       }
     };
 
+  const deleteTaskCard = async(req,res) => {
+      try {
+        const { cardId } = req.params;
+        const findAndDeleteCard = await Task.findByIdAndDelete(cardId)
+        if(!findAndDeleteCard) {
+          return res.status(400).json({ message: "Bad Request", status :"ERROR"})
+        }
+        return res.status(200).json({ message: "Deleted", status: "ERROR"})
+      } catch (error) {
+      res.status(500).json({ message: 'Internal server error', status: "ERROR" });
+        
+      }
+  }
 
 
 
-module.exports = { createTask, getAllTasks, updateCard, getAnalytics}
+module.exports = { createTask, getAllTasks, updateCard, getAnalytics, deleteTaskCard}

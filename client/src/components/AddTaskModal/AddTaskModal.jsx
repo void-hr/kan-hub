@@ -2,20 +2,40 @@ import styles from "./addtaskmodal.module.css"
 import CustomButton from "../CustomButton/CustomButton"
 import red from "../../assets/icons/red.svg"
 import blue from "../../assets/icons/blue.svg"
+import bin from "../../assets/icons/Delete.png"
 import green from "../../assets/icons/green.svg"
 import { Formik, FieldArray } from 'formik';
 import { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import { createTask, updateExistingCard } from "../../api/task"
 
 
-const AddTaskModal = ({setModalView, setAllCard}) => {
+const AddTaskModal = ({setModalView, filteredCardDetails, setFilteredCardDetails}) => {
   const [ showCalendar, setShowCalendar ] = useState(false)
+  const [ selectedPriority, setSelectedPriority] = useState("")
+  const { _id: cardId, title, category, priority, checklist, dueDate} =filteredCardDetails || {}
+  const handleCreateTask = async(value) => {
+    try {
+      if(!filteredCardDetails) {
+        const res = await createTask(value);
+      }else{
+        const res = await updateExistingCard(cardId, value)
+      }
+      setModalView(false)
+      setFilteredCardDetails()
+    } catch (error) {
+      
+    }
+
+  }
   return (
     <Formik 
-    initialValues={{title: "", priority: "", checklist:[], dueDate: ""}}
-    onSubmit={(values) => {
-        console.log(JSON.stringify(values,null,2))
+    initialValues={filteredCardDetails ? {  title: title, priority: priority, category: category,checklist:checklist, dueDate: dueDate || "", }: {title: "", priority: "", category: "BACKLOGS",checklist:[], dueDate: "",}}
+    onSubmit={(values, { resetForm }) => {
+        handleCreateTask(values)
+        resetForm();
+        
     }}
     >
         { formik => (
@@ -28,13 +48,16 @@ const AddTaskModal = ({setModalView, setAllCard}) => {
           }} selectRange={false} /> </div>}
             <div className={styles.card_title}>
                 <label >Title</label>
-                <input type="text" name="" id="title" placeholder="Enter Task Title" onChange={formik.handleChange}/>
+                <input type="text" value={formik.values.title} id="title" placeholder="Enter Task Title" onChange={formik.handleChange}/>
             </div>
             <div className={styles.card_priority}>
                 <label>Select Priority</label>
-                <p className={styles.priority_isActive}> <img src={red} alt="ellipse" /> HIGH PRIORITY</p>
-                <p> <img src={blue} alt="ellipse"/>MODERATE PRIORITY</p>
-                <p> <img src={green} alt="ellipse"/>LOW PRIORITY</p>
+                <p className={selectedPriority === "HIGH PRIORITY" || (!selectedPriority && formik.values.priority === "HIGH PRIORITY") ? styles.priority_isActive : "" } id="priority" onClick={()=>{setSelectedPriority("HIGH PRIORITY")
+                formik.setFieldValue("priority","HIGH PRIORITY")}}> <img src={red} alt="ellipse" /> HIGH PRIORITY</p>
+                <p className={selectedPriority === "MODERATE PRIORITY" || (!selectedPriority && formik.values.priority === "MODERATE PRIORITY") ? styles.priority_isActive : "" } id="priority" onClick={()=>{setSelectedPriority("MODERATE PRIORITY")
+                  formik.setFieldValue("priority","MODERATE PRIORITY")}}> <img src={blue} alt="ellipse"/>MODERATE PRIORITY</p>
+                <p className={selectedPriority === "LOW PRIORITY" || (!selectedPriority && formik.values.priority === "LOW PRIORITY") ? styles.priority_isActive : "" } id="priority" onClick={()=>{setSelectedPriority("LOW PRIORITY")
+                  formik.setFieldValue("priority","LOW PRIORITY")}}> <img src={green} alt="ellipse"/>LOW PRIORITY</p>
 
             </div>
             <FieldArray
@@ -43,25 +66,37 @@ const AddTaskModal = ({setModalView, setAllCard}) => {
           <div className={styles.card_checklist}>
             <label>Checklist (0/{formik.values.checklist.length || 0})</label>
             <span className={styles.card_checklist_content}>
-              {formik.values.checklist?.map((elem, mapIdx) => (
-                <div className={styles.task_input}>
+              {formik.values.checklist?.map((task, mapIdx) => (
+                <div  key={mapIdx} className={styles.task_input}>
                 <input
                   key={mapIdx}
                   type='text'
-                  id={`checklist[${mapIdx}].title`}
+                  id={`checklist[${mapIdx}]`}
                   placeholder='Add New Task'
-                   className={""}
+                  value={task.title}
                   onChange={(e) => {
                     const updatedChecklist = [...formik.values.checklist];
                     updatedChecklist[mapIdx] = { title: e.target.value };
                     formik.setFieldValue('checklist', updatedChecklist);
                   }}
                   />
-                
-
                 <div className={styles.task_input_checkbox} >
-                <input type="checkbox" id={`checklist[${mapIdx}].isChecked`} />
+                <input type="checkbox"
+                checked={task.isChecked} 
+                id={`checklist[${mapIdx}]`} 
+                  onChange={(e) => {
+                    const updatedChecklist = [...formik.values.checklist];
+                    updatedChecklist[mapIdx].isChecked = e.target.checked;
+                    formik.setFieldValue('checklist', updatedChecklist);
+                  }}/>
                 </div>
+                <div className={styles.task_input_bin} ><img src={bin} alt="delete" id={`checklist[${mapIdx}]`} 
+                onClick={()=>
+                 {
+                  const updatedChecklist = [...formik.values.checklist];
+                  updatedChecklist.splice(mapIdx, 1); 
+                  formik.setFieldValue('checklist', updatedChecklist)
+          }} /></div>
                 </div>
                 
               ))}
@@ -76,19 +111,16 @@ const AddTaskModal = ({setModalView, setAllCard}) => {
           </div>
         )}
       />
- 
-          
-
             <div className={styles.button_group}>
                 <span className={styles.button_left}>
-                <CustomButton type="disabled" title={formik.values?.dueDate ? formik.values.dueDate.toLocaleDateString(): "Select Due Date"} radius={12} onClick={()=> setShowCalendar(true)}/>
+                <button type="button" className={styles.button_disabled} onClick={()=> setShowCalendar(true)}>
+                  {formik.values?.dueDate ?" formik.values.dueDate.toLocaleDateString()" : "Select Due Date" }  </button>
                 </span>
                 <span className={styles.button_right}>
-                <CustomButton type="danger" title="Cancel" radius={12} onClick={()=> setModalView(false)}/>
-                <CustomButton type="primary" title="Save" radius={12}  onClick={()=> { 
-                    setAllCard((prev) => [formik.values])
-                    formik.handleSubmit}}/>
-
+                <button type="button" className={styles.button_danger} onClick={()=> {setFilteredCardDetails() 
+                  setModalView(false)}}>Cancel</button>
+                <button type="button" className={styles.button_primary}  onClick={
+                    formik.handleSubmit}>Save</button>
                 </span>
             </div>
         </div>

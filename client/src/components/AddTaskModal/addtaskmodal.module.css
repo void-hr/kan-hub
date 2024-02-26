@@ -116,13 +116,14 @@ label::after {
     display: flex;
     align-items: center;
     position: relative;
+    /* background-color: #17A2B8; */
 }
   .task_input_checkbox{
     position: absolute;
   }
 
   .task_input input[type="text"] {
-    padding-left: 2.5vw;
+    padding-left: 3vw;
   }
   .task_input input[type="checkbox"] {
     width: 1.4rem;
@@ -162,3 +163,36 @@ label::after {
 .remainingSegment {
     border: 1px solid #767575;
 } 
+
+.task_input_bin {
+    position: absolute;
+    right: 0;
+    padding-right: 12px;
+    cursor: pointer;
+}
+
+.button_disabled {
+    border: 1px solid #E2E2E2;
+    color: #707070;
+    background-color: transparent;
+    padding: 12px;
+    border-radius: 12px;
+    width: 100%;
+}
+
+.button_danger {
+    border: 1px solid #CF3636;
+    color: #CF3636;
+    background-color: transparent;
+    border-radius: 12px;
+
+}
+
+.button_primary {
+    background-color: #17A2B8;
+    color: white;
+    border: none;
+    outline: none;
+    border-radius: 12px;
+
+}

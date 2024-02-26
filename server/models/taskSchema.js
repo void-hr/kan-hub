@@ -13,7 +13,7 @@ const taskSchema = new mongoose.Schema(
       },
     priority: {
       type: String,
-      enum: ["HIGH PRIORITY", "MEDIUM PRIORITY", "LOW PRIORITY"],
+      enum: ["HIGH PRIORITY", "MODERATE PRIORITY", "LOW PRIORITY"],
       required: true,
     },
     checklist: [
