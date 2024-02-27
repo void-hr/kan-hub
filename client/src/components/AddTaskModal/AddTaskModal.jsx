@@ -11,30 +11,24 @@ import 'react-calendar/dist/Calendar.css';
 import { createTask, updateExistingCard } from "../../api/task"
 
 
-const AddTaskModal = ({setModalView, filteredCardDetails, setFilteredCardDetails}) => {
+const AddTaskModal = ({setModalView, filteredCardDetails, setFilteredCardDetails, dispatch}) => {
   const [ showCalendar, setShowCalendar ] = useState(false)
   const [ selectedPriority, setSelectedPriority] = useState("")
-  const { _id: cardId, title, category, priority, checklist, dueDate} =filteredCardDetails || {}
+  // const { _id: cardId, title, category, priority, checklist, dueDate} = filteredCardDetails || {}
   const handleCreateTask = async(value) => {
     try {
-      if(!filteredCardDetails) {
         const res = await createTask(value);
-      }else{
-        const res = await updateExistingCard(cardId, value)
-      }
       setModalView(false)
-      setFilteredCardDetails()
     } catch (error) {
-      
+      console.log(error.message)
     }
 
   }
   return (
     <Formik 
-    initialValues={filteredCardDetails ? {  title: title, priority: priority, category: category,checklist:checklist, dueDate: dueDate || "", }: {title: "", priority: "", category: "BACKLOGS",checklist:[], dueDate: "",}}
+    initialValues={{title: "", priority: "", category: "TODO", checklist: [], dueDate: "",}}
     onSubmit={(values, { resetForm }) => {
         handleCreateTask(values)
-        resetForm();
         
     }}
     >
@@ -64,28 +58,28 @@ const AddTaskModal = ({setModalView, filteredCardDetails, setFilteredCardDetails
         name="checklist"
         render={(arrayHelpers) => (
           <div className={styles.card_checklist}>
-            <label>Checklist (0/{formik.values.checklist.length || 0})</label>
+            <label>Checklist (0/{formik.values?.checklist.length || 0})</label>
             <span className={styles.card_checklist_content}>
-              {formik.values.checklist?.map((task, mapIdx) => (
+            {formik.values.checklist.length > 0 ? formik.values.checklist.map((task, mapIdx) => (
                 <div  key={mapIdx} className={styles.task_input}>
                 <input
                   key={mapIdx}
                   type='text'
-                  id={`checklist[${mapIdx}]`}
+                  id={`checklist[${mapIdx}].title`}
                   placeholder='Add New Task'
-                  value={task.title}
+                  value={task?.title}
                   onChange={(e) => {
-                    const updatedChecklist = [...formik.values.checklist];
+                    const updatedChecklist = [...formik.values?.checklist];
                     updatedChecklist[mapIdx] = { title: e.target.value };
                     formik.setFieldValue('checklist', updatedChecklist);
                   }}
                   />
                 <div className={styles.task_input_checkbox} >
                 <input type="checkbox"
-                checked={task.isChecked} 
-                id={`checklist[${mapIdx}]`} 
+                checked={task?.isChecked} 
+                id={`checklist[${mapIdx}].isChecked`} 
                   onChange={(e) => {
-                    const updatedChecklist = [...formik.values.checklist];
+                    const updatedChecklist = [...formik.values?.checklist];
                     updatedChecklist[mapIdx].isChecked = e.target.checked;
                     formik.setFieldValue('checklist', updatedChecklist);
                   }}/>
@@ -93,16 +87,16 @@ const AddTaskModal = ({setModalView, filteredCardDetails, setFilteredCardDetails
                 <div className={styles.task_input_bin} ><img src={bin} alt="delete" id={`checklist[${mapIdx}]`} 
                 onClick={()=>
                  {
-                  const updatedChecklist = [...formik.values.checklist];
+                  const updatedChecklist = [...formik.values?.checklist];
                   updatedChecklist.splice(mapIdx, 1); 
                   formik.setFieldValue('checklist', updatedChecklist)
           }} /></div>
                 </div>
                 
-              ))}
+              )) : ""}
               <span
                 onClick={() => {
-                  formik.setFieldValue('checklist', [...formik.values.checklist, { title: '', isChecked: false }]);
+                  formik.setFieldValue('checklist', [...formik.values?.checklist, { title: '', isChecked: false }]);
                 }}
               >
                 + Add New

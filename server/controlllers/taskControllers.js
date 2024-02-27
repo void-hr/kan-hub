@@ -113,7 +113,7 @@ const updateCard = async (req, res) => {
         if(!findAndDeleteCard) {
           return res.status(400).json({ message: "Bad Request", status :"ERROR"})
         }
-        return res.status(200).json({ message: "Deleted", status: "ERROR"})
+        return res.status(200).json({ message: "Deleted", status: "SUCCESS"})
       } catch (error) {
       res.status(500).json({ message: 'Internal server error', status: "ERROR" });
         
