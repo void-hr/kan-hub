@@ -93,7 +93,7 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
   };
 
   const handleShareLink = () => {
-    const textToCopy = `http://localhost:5173/${cardId}`;
+    const textToCopy = `${import.meta.env.VITE_APP_BACKEND_URL}/${cardId}`;
     console.log(textToCopy);
     navigator.clipboard
       .writeText(textToCopy)
