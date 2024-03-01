@@ -8,7 +8,7 @@ const taskRoutes = require("./routes/taskRoutes");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 8001;
-const allowedOrigins = "http://localhost:5173";
+const allowedOrigins = process.env.ALLOWED_ORIGINS;
 
 const corsOptions = {
   origin: allowedOrigins,
@@ -24,7 +24,7 @@ app.use("/api/v1/tasks", taskRoutes);
 app.get("/", (req, res) => {
   res.json({ message: "Server is up 🚀" });
 });
-// health api
+
 app.get("/health", (req, res) => {
   res.json({
     message: "Server is healthy 💪",
@@ -33,6 +33,8 @@ app.get("/health", (req, res) => {
     time: new Date().toUTCString(),
   });
 });
+
+
 
 connectDB();
 app.listen(PORT, (err) => {

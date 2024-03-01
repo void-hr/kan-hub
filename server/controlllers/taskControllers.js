@@ -6,9 +6,11 @@ const createTask = async (req, res) => {
     try {
       const refUserId = req.body.userID;
       const {title, category, priority, checklist, dueDate } = req.body
+      if( !title || !category || !priority || !checklist) {
+        return res.status(400).json({message: "Bad Request", status: "ERROR"});
+      }
         const data = await Task.create({title, category, priority, checklist, dueDate, refUserId});
-        console.log(data)
-         return res.json({data}) 
+        return res.json({data}) 
          
     } catch (error) {
         return res
@@ -19,9 +21,20 @@ const createTask = async (req, res) => {
 
 const getAllTasks = async (req, res) => {
     try {
-        const token = req.body.userID; 
+        const token = req.body.userID;
+        const { filter } = req.query;
 
-        const data = await Task.find({refUserId: token});
+        const filterCondition = { refUserId: token};
+
+        if(filter === 'month'){
+          filterCondition.createdAt = { $gte: new Date(new Date() - 30 * 24 * 60 * 60 * 1000)};
+        }else if( filter === 'today') {
+          filterCondition.createdAt = { $gte: new Date(new Date().setHours(0, 0, 0, 0)) };
+
+        }else{
+          filterCondition.createdAt = {$gte: new Date(new Date() - 7 * 24 * 60 * 60 * 1000)};
+        }
+        const data = await Task.find(filterCondition).sort({createdAt: 'asc'});
          return res.json({data, status: "SUCCESS"}) 
          
     } catch (error) {
@@ -35,12 +48,17 @@ const getAllTasks = async (req, res) => {
 
 const updateCard = async (req, res) => {
     const { cardId } = req.params;
-    const { checklist, category } = req.body;
-  
+    const { checklist, category, priority, dueDate, title } = req.body;
+    
     try {
       const card = await Task.findById(cardId);
+      if( priority || dueDate || title) {
+        card.priority = priority;
+        card.dueDate = dueDate || null;
+        card.title = title;
+      }
       if (!card) {
-        return res.status(404).json({ message: 'Card Not found' });
+        return res.status(404).json({ message: 'Card Not found', status: "ERROR" });
       }
   
       if (checklist !== undefined) {
@@ -48,15 +66,15 @@ const updateCard = async (req, res) => {
       } else if (category !== undefined) {
         card.category = category;
       } else {
-        return res.status(400).json({ message: 'Invalid Update Data' });
+        return res.status(400).json({ message: 'Bad Request', status: "ERROR" });
       }
   
       const updatedCard = await card.save();
   
-      res.status(200).json({ message: 'Card updated successfully', updatedCard });
+      res.status(200).json({ data: updatedCard, status: "SUCCESS" });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Internal server error' });
+      res.status(500).json({ message: 'Internal server error', status: "ERROR" });
     }
   };
 
@@ -65,6 +83,9 @@ const updateCard = async (req, res) => {
     try {
 
         const userId = req.body.userID
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+          return res.status(400).json({ message: "Invalid User ID", status: "ERROR" });
+        }
         const categoryCount = await Task.aggregate([
           {
             $match: { refUserId: new mongoose.Types.ObjectId(userId) }
@@ -109,17 +130,37 @@ const updateCard = async (req, res) => {
   const deleteTaskCard = async(req,res) => {
       try {
         const { cardId } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(cardId)) {
+          return res.status(400).json({ message: "Invalid Card ID", status: "ERROR" });
+        }
         const findAndDeleteCard = await Task.findByIdAndDelete(cardId)
         if(!findAndDeleteCard) {
           return res.status(400).json({ message: "Bad Request", status :"ERROR"})
         }
         return res.status(200).json({ message: "Deleted", status: "SUCCESS"})
       } catch (error) {
-      res.status(500).json({ message: 'Internal server error', status: "ERROR" });
+        return res.status(500).json({ message: 'Internal server error', status: "ERROR" });
         
       }
   }
 
+  const getTaskCard = async(req,res) => {
+    try {
+      const { cardId } = req.params;
+      if (!mongoose.Types.ObjectId.isValid(cardId)) {
+        return res.status(400).json({ message: "Invalid Card ID", status: "ERROR" });
+      }
+      const findCard = await Task.findOne({_id:cardId});
+      if(!findCard){
+        return res.status(404).json({message: "No Task Found", status: "ERROR"})
+      }   
+      
+      return res.status(200).json({ findCard, status: "SUCCESS"})
+      
+    } catch (error) {
+      res.status(500).json({ message: 'Internal server error', status: "ERROR" });
+    }
+  }
 
 
-module.exports = { createTask, getAllTasks, updateCard, getAnalytics, deleteTaskCard}
+module.exports = { createTask, getAllTasks, updateCard, getAnalytics, deleteTaskCard, getTaskCard}

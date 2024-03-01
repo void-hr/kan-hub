@@ -84,6 +84,9 @@ const updateUserData = async (req, res) => {
         .status(404)
         .json({ message: "User not found", status: "ERROR" });
     }
+    if(!name && !oldPassword && !newPassword) {
+      return res.status(400).json({message: "Bad Request", status: "ERROR"})
+    }
 
     if (name) {
       user.name = name;
@@ -101,9 +104,9 @@ const updateUserData = async (req, res) => {
       user.password = hash;
     }
 
-    await user.save();
+    const userName = await user.save();
 
-    res.json({ message: "User data updated successfully", status: "SUCCESS" });
+    res.json({ message: "User data updated successfully", name: userName.name, status: "SUCCESS" });
   } catch (error) {
     return res
       .status(500)

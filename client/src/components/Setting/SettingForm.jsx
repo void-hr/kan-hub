@@ -5,8 +5,8 @@ import showpass from "../../assets/icons/eye.svg";
 import passhide from "../../assets/icons/passhide.svg";
 import styles from "./settingform.module.css";
 import { Form, Formik } from "formik";
-import { useState } from "react";
-import { updateSettings } from "../../api/task";
+import { useEffect, useState } from "react";
+import { updateSettings } from "../../api/auth";
 import toast from "react-hot-toast";
 const SettingForm = () => {
   const [showPassword, setShowPassword] = useState({
@@ -42,7 +42,7 @@ const SettingForm = () => {
 
   return (
     <Formik
-      initialValues={{ name: "", oldPassword: "", newPassword: "" }}
+      initialValues={{ name:  localStorage.getItem('user') || "", oldPassword: "", newPassword: "" }}
       validationSchema={validationSchema}
       onSubmit={(values) => {
         handleSettingUpdate(values);
@@ -58,9 +58,9 @@ const SettingForm = () => {
                 <span className={styles.input_span}>
                   <input
                     type="text"
-                    name=""
                     id="name"
-                    placeholder="Name"
+                    placeholder={"Name"}
+                    value={formik.values.name || ""  }
                     onChange={formik.handleChange}
                   />
                   <img

@@ -10,7 +10,9 @@ import {
   updateCardCategory,
   updateTaskState,
 } from "../../api/task";
-
+import AddTaskModal from "../AddTaskModal/AddTaskModal"
+import { getDayWithPostfix } from "../../Utils/DatePostfix";
+import AddDeleteModal from "../AddDeleteModal/AddDeleteModal";
 const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isCollapsed, setCategoryCollapse }) => {
   const {
     _id: cardId,
@@ -24,18 +26,41 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
   const allSegment = ["BACKLOGS", "TODO", "IN PROGRESS", "DONE"];
   const [cardMenu, setCardMenu] = useState(false);
   const [ showChecklist, setShowChecklist] = useState( false || isCollapsed );
-
-  console.log(JSON.stringify(isCollapsed))
+  const [ overdue, setOverdue] = useState(false);
+  const [ showPrefilledModal, setShowPrefilledModal] = useState(false)
+  const [ showDeleteModal ,setShowDeleteModal] = useState(false)
+  const [ checkedCount, setCheckedCount] = useState(0)
+  const [isOverflowing, setIsOverflowing] = useState(false);
+  const titleRef = useRef();
   useEffect(() => {
     setRemainingSegment(allSegment.filter((elem) => elem !== category));
+    const numberOfChecked = checklist?.reduce((count, obj) => {
+      return count + (obj.isChecked ? 1 : 0);
+    }, 0);
+
+    setCheckedCount(numberOfChecked)
     if(isCollapsed) {
       setShowChecklist(false)
     }
 
+    if(dueDate) {
+     const endDate = new Date(dueDate).setHours(23, 59, 59, 999); 
+     const currentDateTime = new Date().getTime();
+     setOverdue(endDate < currentDateTime );
+    }
+
+    const checkOverflow = () => {
+      const titleElement = titleRef.current;
+
+      setIsOverflowing(titleElement.scrollHeight > titleElement.clientHeight);
+    };
+
+    checkOverflow();
+
     return ()=> {
       setCategoryCollapse((prev) => ({...prev, [category]:false}))
     }
-  }, [isCollapsed]);
+  }, [isCollapsed,checklist]);
 
   const handleIsCheckedClick = async (e, idx) => {
     try {
@@ -50,7 +75,7 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
       );
       await updateTaskState(cardId, currentchecklist);
     } catch (error) {
-      console.error("Error updating checklist:", error);
+      console.error("Error updating checklist");
     }
   };
 
@@ -62,7 +87,9 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
         payload: { cardId, newCategory },
       });
       await updateCardCategory(cardId, newCategory);
-    } catch (error) {}
+    } catch (error) {
+      console.log("Error updating checklist")
+    }
   };
 
   const handleShareLink = () => {
@@ -71,32 +98,18 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
     navigator.clipboard
       .writeText(textToCopy)
       .then(() => {
-        toast.success("Copied");
+        toast.success("Link Copied");
       })
       .catch((err) => {
-        console.error("Unable to copy text to clipboard", err);
+        console.error("Unable to copy text to clipboard");
       });
   };
-  const handleTaskDelete = async () => {
-    try {
-      await dispatch({
-        type: "DELETE_TASK",
-        payload: { cardId },
-      });
-      await deleteTaskCard(cardId);
-      toast.success("Task Deleted");
-    } catch (error) {
-      toast.error(error.message);
-    }
-  };
+  
 
-  const handlePrefilledCardModal = () => {
-    setFilteredCardDetails(card)
-    setModalView(prev =>!prev)
-  }
 
   return (
     <div>
+      { showDeleteModal ? <AddDeleteModal setShowDeleteModal={setShowDeleteModal} dispatch={dispatch} cardId={cardId}/>:""}
       <div className={styles.container}>
         <div className={styles.header}>
           <span>
@@ -119,20 +132,20 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
             <span>...</span>
             {cardMenu && (
               <div className={styles.card_menu_option}>
-                <span onClick={handlePrefilledCardModal}>Edit</span>
+                <span onClick={() => setShowPrefilledModal(!showPrefilledModal)}>Edit</span>
                 <span onClick={handleShareLink}>Share</span>
-                <span onClick={handleTaskDelete}>Delete</span>
+                <span onClick={() => setShowDeleteModal(true)}>Delete</span>
               </div>
             )}
           </div>
         </div>
-        <div className={styles.title}>
+        <div className={styles.title}  ref={titleRef} title={isOverflowing ? title : ''} >
           <span>{title}</span>
         </div>
         <div className={styles.checklist_header}>
-          <span>Checklist ({0 + "/" + checklist?.length})</span>
-          <span>
-            <img src={downarrow} alt="" onClick={()=> setShowChecklist(!showChecklist)}/>
+          <span className={styles.checklist_count}>Checklist <p>({checkedCount + "/" + checklist?.length})</p></span>
+          <span onClick={()=> setShowChecklist(!showChecklist)}>
+            <img src={downarrow} alt="downarrow" />
           </span>
         </div>
         {showChecklist && checklist?.length > 0 ?
@@ -148,26 +161,22 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
                 />
               </span>
               <span className={styles.input_text_container}>
-                <input
-                  type="text"
-                  id="title"
-                  name={`checklist[${idx}].title`}
-                  value={elem?.title}
-                  disabled
-                />
+                <p>
+                  {elem?.title}
+                  </p>
               </span>
             </span>
           ))}
         </div>
 : ""}
         <div className={styles.date_and_nav_container}>
-          <div className={styles.due_date}>
+          <div className={dueDate ? category === "DONE" ?  styles.due_date_done : overdue ? styles.due_date_overdue : styles.due_date : ""}>
             {dueDate
               ? Intl.DateTimeFormat("en-US", { month: "short" }).format(
                   new Date(dueDate)
                 ) +
                 " " +
-                new Date(dueDate).getDate()
+                new Date(dueDate).getDate()+getDayWithPostfix(new Date(dueDate).getDate())
               : ""}
           </div>
           <div className={styles.change_category_container}>
@@ -183,9 +192,12 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
             ))}
           </div>
         </div>
+      { showPrefilledModal && <AddTaskModal  cardData={card} setModalView={setShowPrefilledModal} dispatch={dispatch}/>}
       </div>
     </div>
   );
 };
 
 export default TaskCard;
+
+

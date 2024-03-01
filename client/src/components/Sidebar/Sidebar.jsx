@@ -6,16 +6,13 @@ import settings from "../../assets/icons/settings.svg"
 import { useNavigate,  useResolvedPath } from "react-router-dom"
 import styles from "./sidebar.module.css"
 import toast from "react-hot-toast"
+import { useState } from "react"
+import AddLogoutModal from "../AddLogoutModal/AddLogoutModal"
 const Sidebar = () => {
     const navigate = useNavigate();
     const { pathname } = useResolvedPath();
     const pageSection = pathname?.split("/").pop();
-
-    const handleLogout = () => {
-        localStorage.clear();
-        navigate('/login');
-        toast.success("Logged Out")
-    }
+    const [ logoutModal, setLogoutModal] = useState(false)
 
   return (
     <aside className={styles.container}>
@@ -40,10 +37,11 @@ const Sidebar = () => {
             </span>
         </div>
         </div>
-        <div className={styles.sidebar_lower} onClick={handleLogout}>
+        <div className={styles.sidebar_lower} onClick={()=> setLogoutModal(prev => !prev)}>
         <img src={logout} alt="pro logo" />
         <p> Logout </p>
         </div>
+        {logoutModal && <AddLogoutModal setLogoutModal={setLogoutModal}/>}
     </aside>
   )
 }

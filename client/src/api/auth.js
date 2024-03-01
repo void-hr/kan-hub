@@ -12,7 +12,7 @@ export const registerAccount = async( value ) => {
        }
     } catch (error) {
         const customErrorMessage = error?.response?.data?.message || "Something Went Wrong";
-        throw new Error(`${customErrorMessage}`);
+        throw new Error(customErrorMessage);
     }
 }
 
@@ -29,5 +29,24 @@ export const loginAccount = async( value ) => {
     } catch (error) {
         const customErrorMessage = error?.response?.data?.message || "Something Went Wrong";
         throw new Error(`${customErrorMessage}`);
+    }
+}
+
+export const updateSettings = async(formData) => {
+    try {
+        const token = localStorage.getItem('token')
+        if(token) {
+            const header = { headers : {
+                "Content-type": "application/json; charset=UTF-8",
+                "Authorization": token
+            }}
+            const { data } = await axios.patch(`http://localhost:8000/api/v1/updateuser`, formData, header);
+                return data;
+       }else {
+        throw new Error("Something Unexpected Happened")
+       }
+    } catch (error) {
+        const customErrorMessage = error?.response?.data?.message || "Something Went Wrong";
+        throw new Error(customErrorMessage);
     }
 }

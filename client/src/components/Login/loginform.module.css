@@ -47,7 +47,8 @@
 }
 
 .input_span input {
-    padding-left: 3vw;
+    padding-left: calc(4px + 2.3rem);
+
 }
 
 .single_icon {

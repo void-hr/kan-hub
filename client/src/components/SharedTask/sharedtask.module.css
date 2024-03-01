@@ -1,16 +1,19 @@
+
 .container {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
     background-color: white;
-    padding: 16px;
-    border-radius: 20px;
-    z-index: 10;
+    border: 1px solid #EDF5FE;
+    padding: 62px 33px;
+    border-radius: 11px;
+    width: 40vw;
+
 }
 
 .header {
     display: flex;
-    font-size: x-small;
+    font-size: small;
     font-weight: bold;
     font-family: "Poppins", sans-serif;
     color: #707070;
@@ -19,15 +22,8 @@
 }
 
 .header img {
-    padding-right: 2px;
+    padding-right: 5px;
 }
-
-.header select {
-    appearance: none;
-    border: none;
-    background-color: transparent;
-}
-
 
 .title {
     display: -webkit-box;
@@ -42,6 +38,8 @@
 
 .checklist {
     width: 100%;
+    max-height: 34vh; 
+    overflow-y: auto;
 }
 
 
@@ -71,6 +69,7 @@
   outline: none;
   word-wrap: break-word;
   white-space: pre-wrap;
+  cursor: default;
 }
 
 .input_checkbox_container{
@@ -87,7 +86,7 @@
     outline: none;
     background: url('../../assets/icons/tick.svg') center center no-repeat;
     background-size: 60%;
-    cursor: pointer;
+    cursor: default;
   }
 
 .input_checkbox_container input[type="checkbox"]:checked {
@@ -106,78 +105,8 @@
     color: rgb(242, 242, 242);
   }
 
-  .date_and_nav_container {
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    word-wrap: normal;
-    overflow-x: auto;
-    text-align: center;
-  }
-
-  .change_category_container {
-    display: flex;
-    gap: 5px; 
-    align-items: center;
-    justify-content: center;
-    
-    
-  }
-  .change_category {
-    border-radius: 4px;
-    color: #707070;
-    font-size: xx-small;
-    cursor: pointer;
-    background-color: #EEECEC;
-    align-self: right;
-    border-radius: 8px;
-    padding: 4px 6px;
-    font-family: "Poppins", sans-serif;
-    font-size: clamp(8px,12px,1rem);
-
-  }
-
   .due_date {
-    font-size: xx-small;
-  }
-
-  .card_menu {
-    display: flex; 
-    align-items: center;
-    justify-content: center;
-    color: black;
-    font-size: x-large;
-    transform: translateY(-25%);
-    cursor: pointer;
-    position: relative;
-  }
-
-  .card_menu_option {
-    background-color: white;
-    right: 1px;
-    top: 28px;
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 0.2rem;
-    font-size: medium;
-    
-    border-radius: 10px;
-    font-weight: normal;
-    -webkit-box-shadow: 0px 0px 37px -10px rgba(0,0,0,0.75);
-    -moz-box-shadow: 0px 0px 37px -10px rgba(0,0,0,0.75);
-    box-shadow: 0px 0px 16px -10px rgba(0,0,0,0.75);
-  }
-
-  .card_menu_option span {
-    width: 100%;
-    padding: 3px 6rem 0.2rem 1rem;
-  }
-  .card_menu_option span:last-child {
-    color: red;
+    font-size: small;
   }
 
   .checklist_header {
@@ -202,7 +131,6 @@
   } 
 
   .checklist_header span:last-child{
-    background-color: #EEECEC;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -210,27 +138,54 @@
     border-radius: 8px;
     cursor: pointer;
   }
+.due_date_container{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: medium;
+}
 
-
-  .due_date, .due_date_done, .due_date_overdue {
+  .due_date_overdue {
     font-family: "Poppins", sans-serif;
     border-radius: 8px;
-    padding: 4px 6px;
+    padding: 4px 8px;
     font-size: small;
     outline: none;
     border: none;
-    font-size: clamp(8px,12px,1rem);
-
-  }
-  .due_date_done{
-    background-color: #63C05B;
+    background-color: #CF3636;
     color: white;
   }
-  .due_date {
-    background-color: #DBDBDB;
-    color: #5A5A5A;
+ 
+
+
+
+  @media only screen and (max-width: 1500px) {
+    .container {
+      width: 70vw; 
+      height: auto; 
+    }
   }
-  .due_date_overdue{
-        background-color: #CF3636;
-        color: white;
+
+  @media only screen and (max-width: 768px) {
+    .container {
+      width: 400px; 
+      height: auto; 
+    }
+  }
+  
+  @media only screen and (max-width: 500px) {
+    .container {
+      width: 90vw;
+      height: auto; 
+    }
+
+    .title{
+      font-size: medium;
+    }
+    .checklist p {
+      font-size: small;
+    }
+    .due_date_container {
+      font-size: small;
+    }
   }
