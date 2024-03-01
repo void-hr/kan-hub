@@ -94,7 +94,7 @@ const Dashboard = () => {
         payload: res.data,
       });
     } catch (error) {
-      if(localstorage.getItem('user')) {
+      if(localStorage.getItem('user')) {
       toast.error(error.message);
       }
     }
