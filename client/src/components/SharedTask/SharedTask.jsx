@@ -13,6 +13,8 @@ const SharedTask = () => {
     const [cardData, setCardData] = useState({})
     const [ checkedCount, setCheckedCount] = useState(0)
     const { priority, checklist, dueDate, title } = cardData || { }
+    const [ loading ,setLoading] =useState(true)
+    const [ error ,setError] = useState(false)
 
     useEffect(()=> {
         fetchTaskData();
@@ -30,77 +32,84 @@ const SharedTask = () => {
 
     const fetchTaskData = async() => {
         try {
+          setLoading(true)
             const { findCard } = await getTaskById(cardId)
             if(findCard){
                 setCardData(findCard)
             }
+            setLoading(false)
         } catch (error) {
             toast.error(error.message)
+            setLoading(false)
+            setError(true)
         }
     }
   return (
     <>
-   { Object.keys(cardData).length > 0  ?
-    <div className={styles.container}>
-          <div className={styles.header}>
-          <span>
-            <img
-              src={
-                priority === "HIGH PRIORITY"
-                  ? red
-                  : priority === "LOW PRIORITY"
-                  ? green
-                  : blue
-              }
-              alt="priority"
-            />
-            {priority}
-          </span>
-       
-        </div>
-        <div className={styles.title} >
-          <span>{title}</span>
-        </div>
-        <div className={styles.checklist_header}>
-          <span className={styles.checklist_count}>Checklist <p>({ checkedCount + "/" + checklist?.length})</p></span> 
-       </div>
-        
-        <div className={styles.checklist}>
-        { checklist?.map((elem, idx) => ( 
-            <span key={elem._id} className={styles.input_span}>
-              <span className={styles.input_checkbox_container}>
-                <input
-                  type="checkbox"
-                  name={`checklist[${idx}].isChecked`}
-                  defaultChecked={elem?.isChecked}
-                  disabled
-                  readOnly
-                />
-              </span>
-              <span className={styles.input_text_container}>
-                <p>
-                   {elem?.title} 
-                  </p>
-              </span>
+    { loading ? <p>Loading....</p> :
+    Object.keys(cardData).length > 0  ?
+      <div className={styles.container}>
+            <div className={styles.header}>
+            <span>
+              <img
+                src={
+                  priority === "HIGH PRIORITY"
+                    ? red
+                    : priority === "LOW PRIORITY"
+                    ? green
+                    : blue
+                }
+                alt="priority"
+              />
+              {priority}
             </span>
-         ))}
-        </div>
-
-       {dueDate   ?
-       <div className={styles.due_date_container}>
-       <p>Due Date</p>
-        <div className={styles.due_date_overdue }>
-            {dueDate
-              ? Intl.DateTimeFormat("en-US", { month: "short" }).format(
-                  new Date(dueDate)
-                ) +
-                " " +
-                new Date(dueDate).getDate()
-              : ""} 
-          </div> 
-          </div> : ""
-        }
-        </div> : "No Task Found Check your shared link again"}
+         
+          </div>
+          <div className={styles.title} >
+            <span>{title}</span>
+          </div>
+          <div className={styles.checklist_header}>
+            <span className={styles.checklist_count}>Checklist <p>({ checkedCount + "/" + checklist?.length})</p></span> 
+         </div>
+          
+          <div className={styles.checklist}>
+          { checklist?.map((elem, idx) => ( 
+              <span key={elem._id} className={styles.input_span}>
+                <span className={styles.input_checkbox_container}>
+                  <input
+                    type="checkbox"
+                    name={`checklist[${idx}].isChecked`}
+                    defaultChecked={elem?.isChecked}
+                    disabled
+                    readOnly
+                  />
+                </span>
+                <span className={styles.input_text_container}>
+                  <p>
+                     {elem?.title} 
+                    </p>
+                </span>
+              </span>
+           ))}
+          </div>
+  
+         {dueDate   ?
+         <div className={styles.due_date_container}>
+         <p>Due Date</p>
+          <div className={styles.due_date_overdue }>
+              {dueDate
+                ? Intl.DateTimeFormat("en-US", { month: "short" }).format(
+                    new Date(dueDate)
+                  ) +
+                  " " +
+                  new Date(dueDate).getDate()
+                : ""} 
+            </div> 
+            </div> : ""
+          }
+          </div> : null }
+        {  error ? <p>No Task Found Check your shared link again</p> : null}
+   
         </>
   )
 }
