@@ -93,7 +93,7 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
   };
 
   const handleShareLink = () => {
-    const textToCopy = `${import.meta.env.VITE_APP_BACKEND_URL}/${cardId}`;
+    const textToCopy = `https://kan-hub.vercel.app/${cardId}`;
     console.log(textToCopy);
     navigator.clipboard
       .writeText(textToCopy)
