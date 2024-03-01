@@ -101,6 +101,10 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem('token')
+    if (!token) {
+      navigate('/login');
+    }
     fetchTasks(filterCardByDuration);
     function formatDate(date) {
       const options = { day: "numeric", month: "short", year: "numeric" };
