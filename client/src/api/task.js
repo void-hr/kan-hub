@@ -3,12 +3,13 @@ import axios from "axios"
 export const getAllTasks = async(filterCardByDuration) => {
     try {
         const token = localStorage.getItem('token')
+        
         if(token) {
             const header = { headers : {
                 "Content-type": "application/json; charset=UTF-8",
                 "Authorization": token
             }}
-            const { data } = await axios.get(`http://localhost:8000/api/v1/tasks/all?filter=${filterCardByDuration ? filterCardByDuration : '' }`, header);
+            const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/tasks/all?filter=${filterCardByDuration ? filterCardByDuration : '' }`, header);
             if(data.status === "SUCCESS") {
                 return data;
         }  
@@ -29,7 +30,7 @@ export const updateExistingCard = async(cardId, value) => {
                 "Content-type": "application/json; charset=UTF-8",
                 "Authorization": token
             }}
-            const { data } = await axios.put(`http://localhost:8000/api/v1/tasks/update/${cardId}`, value, header);
+            const { data } = await axios.put(`${import.meta.env.VITE_APP_BACKEND_URL}/tasks/update/${cardId}`, value, header);
             return data;
         
     }} catch (error) {
@@ -49,7 +50,7 @@ export const updateTaskState = async(cardId, data) => {
                 "Content-type": "application/json; charset=UTF-8",
                 "Authorization": token
             }}
-            const { data } = await axios.put(`http://localhost:8000/api/v1/tasks/update/${cardId}`, reqPayload, header);
+            const { data } = await axios.put(`${import.meta.env.VITE_APP_BACKEND_URL}/tasks/update/${cardId}`, reqPayload, header);
                 return data;
        }else {
         throw new Error("Something Unexpected Happened")
@@ -69,7 +70,7 @@ export const updateCardCategory = async(cardId, data) => {
                 "Content-type": "application/json; charset=UTF-8",
                 "Authorization": token
             }}
-            const { data } = await axios.put(`http://localhost:8000/api/v1/tasks/update/${cardId}`, reqPayload, header);
+            const { data } = await axios.put(`${import.meta.env.VITE_APP_BACKEND_URL}/tasks/update/${cardId}`, reqPayload, header);
                 return data;
        }else {
         throw new Error("Something Unexpected Happened")
@@ -89,7 +90,7 @@ export const getAllAnalytics = async() => {
                 "Content-type": "application/json; charset=UTF-8",
                 "Authorization": token
             }}
-            const { data } = await axios.get(`http://localhost:8000/api/v1/tasks/analytics`,  header);
+            const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/tasks/analytics`,  header);
                 return data;
        }else {
         throw new Error("Something Unexpected Happened")
@@ -110,7 +111,7 @@ export const createTask = async(value) => {
                 "Content-type": "application/json; charset=UTF-8",
                 "Authorization": token
             }}
-            const { data } = await axios.post(`http://localhost:8000/api/v1/tasks/create`, value, header);
+            const { data } = await axios.post(`${import.meta.env.VITE_APP_BACKEND_URL}/tasks/create`, value, header);
             return data;
         
     }} catch (error) {
@@ -127,7 +128,7 @@ export const deleteTaskCard = async(cardId) => {
                 "Content-type": "application/json; charset=UTF-8",
                 "Authorization": token
             }}
-            const { data } = await axios.delete(`http://localhost:8000/api/v1/tasks/${cardId}`, header);
+            const { data } = await axios.delete(`${import.meta.env.VITE_APP_BACKEND_URL}/tasks/${cardId}`, header);
             return data;
     } }catch (error) {
         const customErrorMessage = error?.response?.data?.message || "Something Went Wrong";
@@ -138,7 +139,7 @@ export const deleteTaskCard = async(cardId) => {
 export const getTaskById = async(cardId) => {
     try {
         if(cardId){
-            const { data } = await axios.get(`http://localhost:8000/api/v1/tasks/${cardId}`);
+            const { data } = await axios.get(`${import.meta.env.VITE_APP_BACKEND_URL}/tasks/${cardId}`);
             return data;
         }
         else {

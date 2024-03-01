@@ -12,7 +12,6 @@ import { useEffect } from "react";
 function App() {
 
   const navigate = useNavigate();
-
     useEffect(() => {
       const token = localStorage.getItem('token')
   

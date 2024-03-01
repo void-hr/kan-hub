@@ -34,7 +34,7 @@ const SettingForm = () => {
   const handleSettingUpdate = async(value) => {
     try {
       const res = await updateSettings(value);
-
+      localStorage.setItem('user', res?.name)
     } catch (error) {
       toast.error(error.message)
     }

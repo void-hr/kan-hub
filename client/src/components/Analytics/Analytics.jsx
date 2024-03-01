@@ -20,7 +20,6 @@ const Analytics = () => {
         }
     }
 
-    console.log(analytics?.backlogs)
   return (
     <div className={styles.container}>
         <h2>Analytics</h2>
@@ -71,7 +70,7 @@ const Analytics = () => {
                     <img src={ellipse} alt="" />
                     Moderate Priority
                     </p>
-                    <p className={styles.analytics_content_right}>{analytics  ? analytics?.medium ? analytics?.medium : 0 : ""}</p>
+                    <p className={styles.analytics_content_right}>{analytics  ? analytics?.moderate ? analytics?.moderate : 0 : ""}</p>
                 </span>
                 <span className={styles.analytics_content_container}>
                     <p className={styles.analytics_content_left}>

@@ -6,7 +6,6 @@ import downarrow from "../../assets/icons/downarrow.svg";
 import styles from "./taskcard.module.css";
 import toast from "react-hot-toast";
 import {
-  deleteTaskCard,
   updateCardCategory,
   updateTaskState,
 } from "../../api/task";
@@ -88,6 +87,7 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
       });
       await updateCardCategory(cardId, newCategory);
     } catch (error) {
+      toast.error("Error Updating Checklist")
       console.log("Error updating checklist")
     }
   };
@@ -101,7 +101,8 @@ const TaskCard = ({ card, dispatch, setModalView, setFilteredCardDetails, isColl
         toast.success("Link Copied");
       })
       .catch((err) => {
-        console.error("Unable to copy text to clipboard");
+      toast.error("Error Copying Link")
+      console.error("Unable to copy text to clipboard");
       });
   };
   

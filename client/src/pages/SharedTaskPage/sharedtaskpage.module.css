@@ -16,3 +16,17 @@
 .navbar_logo h2{
     font-weight: 600;
 }
+
+@media only screen and (max-width: 500px) {
+    .navbar_logo{
+        padding: 0px 33px;
+    }
+    
+}
+
+@media only screen and (max-width: 300px) {
+    .navbar_logo h2{
+        font-size: large;
+    }
+    
+}

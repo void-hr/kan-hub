@@ -1,5 +1,4 @@
 import styles from "./addtaskmodal.module.css"
-import CustomButton from "../CustomButton/CustomButton"
 import red from "../../assets/icons/red.svg"
 import blue from "../../assets/icons/blue.svg"
 import bin from "../../assets/icons/Delete.png"
@@ -42,6 +41,7 @@ const AddTaskModal = ({setModalView, cardData, dispatch}) => {
   },[checklist])
   const handleCreateTask = async(value) => {
     try {
+      setModalView(false)
       if(!cardData) {
         const res = await createTask(value);
         dispatch({
@@ -57,10 +57,8 @@ const AddTaskModal = ({setModalView, cardData, dispatch}) => {
         })
         toast.success("Task Modified")
       }
-      
-      setModalView(false)
     } catch (error) {
-      console.log(error.message)
+      toast.error(error.message)
     }
 
   }
@@ -68,9 +66,8 @@ const AddTaskModal = ({setModalView, cardData, dispatch}) => {
     <Formik 
     initialValues={{title: title || "" , priority:  priority || "", category: "TODO" || category, checklist: checklist || [], dueDate: "" || dueDate,}}
     validationSchema={validationSchema}
-    onSubmit={(values, { resetForm }) => {
+    onSubmit={(values) => {
         handleCreateTask(values)
-        resetForm()
     }}
     >
         { formik => (

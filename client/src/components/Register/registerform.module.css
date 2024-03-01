@@ -9,7 +9,7 @@
 .inner_container {
     display: flex;
     padding: 10vh;
-    height: 85%; /*might change later according to figma */
+    height: 85%; 
     width: 100%;
     flex-direction: column;
     align-items: center;
@@ -32,6 +32,9 @@
     color: red;
     padding-left: 2px;
     font-size: small;
+}
+.input_wrapper input {
+    padding-left: 2.5rem !important;
 }
 
 .input_span {

@@ -5,7 +5,6 @@ import analytics from "../../assets/icons/analytics.svg"
 import settings from "../../assets/icons/settings.svg"
 import { useNavigate,  useResolvedPath } from "react-router-dom"
 import styles from "./sidebar.module.css"
-import toast from "react-hot-toast"
 import { useState } from "react"
 import AddLogoutModal from "../AddLogoutModal/AddLogoutModal"
 const Sidebar = () => {

@@ -25,9 +25,12 @@
     gap: 1rem;
 
 }
-
+.sidebar_header h2 {
+    font-weight: 600;
+    font-size: x-large;
+} 
 .sidebar_header img {
-    width: 8%;
+    width: 7%;
     transform: translate(-5px);
 }
 

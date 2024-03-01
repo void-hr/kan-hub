@@ -44,6 +44,10 @@
        overflow-x: scroll;
     }
 
+    .section_title {
+        font-weight: 600;
+        font-size: large;
+    }
     .backlog, .todo, .inprogress, .done {
         background-color: #EEF2F5;
         margin-bottom: 1rem;

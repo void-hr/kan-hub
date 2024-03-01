@@ -35,5 +35,16 @@
     justify-content: center;
     color: white;
     font-size: 1rem;
-    /* line-height: 1px; */
+}
+
+.welcome_message h6{
+    margin: 0;
+    font-size: medium;
+    font-weight: 500;
+}
+
+.welcome_message h2{
+    margin: 0;
+    font-size: x-large;
+    font-weight: 600;
 }

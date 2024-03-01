@@ -143,7 +143,7 @@ const Dashboard = () => {
         {section.map((elem, idx) => (
           <div key={idx} className={styles.backlog}>
             <div className={styles.kanban_title}>
-              <p>{elem}</p>
+              <p className={styles.section_title}>{elem}</p>
               <span className={styles.kanban_title_right}>
                 {elem === "TODO" ? (
                   <img src={add} alt="add" onClick={() => setModalView(true)} />
