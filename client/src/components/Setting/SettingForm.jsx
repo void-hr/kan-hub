@@ -44,8 +44,9 @@ const SettingForm = () => {
     <Formik
       initialValues={{ name:  localStorage.getItem('user') || "", oldPassword: "", newPassword: "" }}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
+      onSubmit={(values, { resetForm }) => {
         handleSettingUpdate(values);
+        resetForm();
       }}
     >
       {(formik) => (
