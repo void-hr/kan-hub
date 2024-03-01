@@ -7,7 +7,6 @@ import SettingPage from "./pages/SettingPage/SettingPage";
 import AnalyticsPage from "./pages/AnalyticsPage/AnalyticsPage";
 import { Toaster } from "react-hot-toast";
 import SharedTaskPage from "./pages/SharedTaskPage/SharedTaskPage";
-import { useEffect } from "react";
 
 function App() {
 
