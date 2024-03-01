@@ -94,7 +94,6 @@ const updateUserData = async (req, res) => {
 
     if (oldPassword && newPassword) {
       const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
-      console.log(isPasswordValid);
       if (!isPasswordValid) {
         return res
           .status(401)
