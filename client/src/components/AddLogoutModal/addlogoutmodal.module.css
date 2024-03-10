@@ -43,7 +43,7 @@
     border: none;
     outline: none;
     border-radius: 12px;
-
+    padding: 12px;
 }
 
 .button_danger {
@@ -51,5 +51,5 @@
     color: #CF3636;
     background-color: transparent;
     border-radius: 12px;
-
+    padding: 12px;
 }
