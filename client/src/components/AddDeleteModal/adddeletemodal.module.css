@@ -43,7 +43,7 @@
     border: none;
     outline: none;
     border-radius: 12px;
-    padding-top: 12px;
+    padding: 12px;
 
 }
 
@@ -52,5 +52,5 @@
     color: #CF3636;
     background-color: transparent;
     border-radius: 12px;
-    padding-top: 12px;
+    padding: 12px;
 }
